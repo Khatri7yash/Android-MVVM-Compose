@@ -9,6 +9,16 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
 
+retrofit2 = "2.11.0"
+coreSplashscreen = "1.0.1"
+hiltAndroid = "2.52"
+gson = "2.11.0"
+room = "2.6.1"
+navigation = "2.8.5"
+hilt-navigation-compose = "1.2.0"
+googleService = "4.4.2"
+ksp = "2.0.21-1.0.27"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,9 +34,22 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+com-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
+com-google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleService" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
