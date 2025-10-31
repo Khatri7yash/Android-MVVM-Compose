@@ -81,5 +81,8 @@ dependencies {
     // Room
     implementation(libs.androidx.room)
 
+    // Navigation
+    implementation(libs.androidx.navigation)
+
 
 }
