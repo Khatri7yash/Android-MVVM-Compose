@@ -37,10 +37,8 @@ class APIModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(
-                Interceptor { chain: Interceptor.Chain ->
-                    val requestBuilder = chain.request().newBuilder()
-                    chain.proceed(requestBuilder.build())
-                },
-            ).build()
+            .addInterceptor { chain: Interceptor.Chain ->
+                val requestBuilder = chain.request().newBuilder()
+                chain.proceed(requestBuilder.build())
+            }.build()
 }
