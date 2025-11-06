@@ -1,11 +1,16 @@
 package com.example.mvvm_compose_di.navigation
 
 
-sealed class Screen(
-    val route:String,
+private sealed class Screen(
+    val route: String,
     vararg arguments: Any
 ) {
 
-    object MainActivity : Screen("main")
+    object HomeScreen : Screen("home")
 
+}
+
+enum class NavScreens(val route: String, title: String) {
+    HomeScreen("Home", "Home"),
+//    PopBackStack("", "")
 }
