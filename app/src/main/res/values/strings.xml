@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Mvvm-Compose-Di</string>
+    <string name="there_is_no_internet">There is no internet!</string>
 </resources>

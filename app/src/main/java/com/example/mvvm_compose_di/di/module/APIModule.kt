@@ -1,8 +1,9 @@
 package com.example.mvvm_compose_di.di.module
 
 
-import com.example.mvvm_compose_di.data.remote.APIServices
-import com.example.mvvm_compose_di.utils.Constants.BASE_URL
+import com.example.mvvm_compose_di.data.datasource.remote.APIServices
+import com.example.mvvm_compose_di.data.datasource.remote.ApiKeyInterceptor
+import com.example.mvvm_compose_di.data.datasource.remote.ApiURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,7 @@ class APIModule {
     fun getAPIServices(httpClient: OkHttpClient): APIServices =
         Retrofit
             .Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(ApiURL.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
@@ -31,14 +32,24 @@ class APIModule {
 
     @Singleton
     @Provides
-    fun getHttpClient(): OkHttpClient =
+    fun provideApiKeyInterceptor(): ApiKeyInterceptor {
+        return ApiKeyInterceptor()
+    }
+
+    @Singleton
+    @Provides
+    fun getHttpClient(
+        apiKeyInterceptor: ApiKeyInterceptor
+    ): OkHttpClient =
         OkHttpClient
             .Builder()
+            .callTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor { chain: Interceptor.Chain ->
                 val requestBuilder = chain.request().newBuilder()
                 chain.proceed(requestBuilder.build())
-            }.build()
+            }.addInterceptor(apiKeyInterceptor)
+            .build()
 }
