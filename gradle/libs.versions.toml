@@ -18,6 +18,8 @@ navigation = "2.8.5"
 hilt-navigation-compose = "1.2.0"
 googleService = "4.4.2"
 ksp = "2.0.21-1.0.27"
+paging-compose = "3.3.6"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +45,8 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging-compose" }
 
 
 [plugins]
@@ -52,4 +56,3 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleService" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
