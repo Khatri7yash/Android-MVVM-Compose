@@ -3,7 +3,7 @@ package com.example.mvvm_compose_di.data.datasource.remote.movies
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.mvvm_compose_di.data.datasource.remote.APIServices
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.example.mvvm_compose_di.data.model.MovieItem
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -27,6 +27,9 @@ class NowPlayingMoviePagingDataSource @Inject constructor(val apiService: APISer
             print("exception ${ex.message}")
             LoadResult.Error(ex)
         } catch (exception: IOException) {
+            print("exception ${exception.message}")
+            return LoadResult.Error(exception)
+        } catch (exception: IllegalArgumentException) {
             print("exception ${exception.message}")
             return LoadResult.Error(exception)
         }

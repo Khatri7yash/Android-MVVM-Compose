@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.mvvm_compose_di.data.datasource.remote.APIServices
 import com.example.mvvm_compose_di.data.datasource.remote.movies.NowPlayingMoviePagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.example.mvvm_compose_di.data.model.MovieItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

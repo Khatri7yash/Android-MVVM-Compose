@@ -92,5 +92,9 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
 
+    //Interceptor
+    implementation(libs.logging.interceptor)
+    implementation(libs.okHttp)
+
 
 }

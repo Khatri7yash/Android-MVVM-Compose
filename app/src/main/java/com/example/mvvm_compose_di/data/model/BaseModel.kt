@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.data.model
+package com.example.mvvm_compose_di.data.model
 
 import com.google.gson.annotations.SerializedName
 
