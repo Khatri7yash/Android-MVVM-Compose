@@ -41,7 +41,9 @@ class HomeScreenViewModel @Inject constructor(
                 DataState.Loading
             }
 
-            else -> DataState.Loading
+            is LoadState.NotLoading -> {
+                DataState.Success<Any>("")
+            }
         }
     }
 

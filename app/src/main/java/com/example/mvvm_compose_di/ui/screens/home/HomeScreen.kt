@@ -36,7 +36,7 @@ fun HomeScreen(navigation: (NavScreens?) -> Unit) {
         navigation = navigation
     ) {
         BaseColumn(uiState, Modifier) {
-            Movies(moviesItems)
+            Movies(moviesItems, onclick = {})
         }
     }
 }

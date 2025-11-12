@@ -1,5 +1,6 @@
 package com.example.mvvm_compose_di.ui.screens.base
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -38,7 +39,7 @@ fun BaseScreen(
 
     MvvmComposeDiTheme {
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
