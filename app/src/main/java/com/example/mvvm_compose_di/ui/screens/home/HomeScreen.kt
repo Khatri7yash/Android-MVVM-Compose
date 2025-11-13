@@ -15,7 +15,7 @@ import com.example.mvvm_compose_di.ui.component.base.BaseColumn
 import com.example.mvvm_compose_di.ui.screens.base.BaseScreen
 
 @Composable
-fun HomeScreen(navigation: (NavScreens?) -> Unit) {
+fun HomeScreen(navigation: (NavScreens?, Array<out Any>?) -> Unit) {
 
     val viewModel = hiltViewModel<HomeScreenViewModel>()
     val title by remember { mutableStateOf("Movies") }
@@ -36,7 +36,9 @@ fun HomeScreen(navigation: (NavScreens?) -> Unit) {
         navigation = navigation
     ) {
         BaseColumn(uiState, Modifier) {
-            Movies(moviesItems, onclick = {})
+            Movies(moviesItems, onclick = { movieItem ->
+                navigation(NavScreens.MovieDetailsScreen, arrayOf(movieItem.id))
+            })
         }
     }
 }

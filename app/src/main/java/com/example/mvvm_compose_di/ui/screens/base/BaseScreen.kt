@@ -30,7 +30,7 @@ import com.example.mvvm_compose_di.utils.networkutils.connectivityState
 @Composable
 fun BaseScreen(
     title: String,
-    navigation: (NavScreens?) -> Unit,
+    navigation: (NavScreens?, Array<out Any>?) -> Unit,
     content: @Composable (() -> Unit)
 ) {
     val route = LocalCurrentRoute.current
@@ -49,7 +49,7 @@ fun BaseScreen(
                         when (route) {
                             NavScreens.HomeScreen.route -> {}
                             else -> {
-                                IconButton(onClick = { navigation(null) }) {
+                                IconButton(onClick = { navigation(null, null) }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                         contentDescription = "Localized description"
