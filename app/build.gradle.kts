@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt.android)
 //    alias(libs.plugins.google.services)
-    alias (libs.plugins.google.ksp)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -24,6 +24,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY", "\"59cd6896d8432f9c69aed9b86b9c2931\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -33,14 +36,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+    }
+    kotlin {
+        jvmToolchain(17)
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -63,7 +70,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    ksp (libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Hilt Navigation
     implementation(libs.androidx.hilt.navigation.compose)
@@ -84,5 +91,18 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation)
 
+    //Paging
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
+
+    //Interceptor
+    implementation(libs.logging.interceptor)
+    implementation(libs.okHttp)
+
+    // Image Loading
+//    implementation(libs.landscapist.bom)
+    implementation(libs.landscapist.coil)
+    implementation(libs.landscapist.placeholder)
+    implementation(libs.landscapist.animation)
 
 }

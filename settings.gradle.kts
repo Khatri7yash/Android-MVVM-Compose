@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Mvvm-Compose-Di"
 include(":app")
- 
