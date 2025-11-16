@@ -39,7 +39,9 @@ fun BaseScreen(
 
     MvvmComposeDiTheme {
         Scaffold(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {

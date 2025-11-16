@@ -1,6 +1,8 @@
 package com.example.mvvm_compose_di.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -32,3 +34,24 @@ val Typography = Typography(
     )
     */
 )
+
+val Typography.subTitlePrimary: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontSize = 14.sp
+        )
+    }
+
+val Typography.subTitleSecondary: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily.Default,
+            color = MaterialTheme.colorScheme.onSecondary,
+            fontSize = 10.sp,
+        )
+    }

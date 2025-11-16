@@ -1,9 +1,11 @@
 package com.example.mvvm_compose_di.ui.component.base
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +30,7 @@ fun <R> BaseColumn(
         uiState = state
     }
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = if (uiState == DataState.Loading) Arrangement.Center else Arrangement.Top
     ) {
