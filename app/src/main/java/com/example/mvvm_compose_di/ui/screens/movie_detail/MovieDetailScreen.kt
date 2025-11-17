@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mvvm_compose_di.data.datasource.remote.ApiURL
@@ -121,12 +122,9 @@ private fun MovieDetails(
 
                     Box(
                         Modifier
-                            .aspectRatio(3f / 2f)
+                            .wrapContentHeight()
                             .fillMaxWidth()
                             .background(Color.Magenta)
-                            .onGloballyPositioned { coords ->
-                                bHeightPx = coords.boundsInParent().height / 1.2f
-                            }
                     ) {
                         CoilImage(
                             modifier = Modifier
@@ -143,19 +141,19 @@ private fun MovieDetails(
                                     spotShadowColor = Color.Black
                                     renderEffect = BlurEffect(5f, 5f)
                                 }
-                            /*.onGloballyPositioned { coords ->
-                            bHeightPx = coords.boundsInParent().height / 2f   // <-- correct!
-                        }*/,
+                                .onGloballyPositioned { coords ->
+                                    bHeightPx = coords.boundsInParent().height
+                                },
                             imageModel = { ApiURL.IMAGE_URL.plus(details.backdropPath) },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop
                             )
                         )
-
+                        val bgHeight = with(density) { bHeightPx.toDp() }
                         Row(
                             Modifier
-                                .offset { IntOffset(0, bHeightPx.toInt()) }
-                                .padding(start = 10.dp)) {
+                                .offset { IntOffset(0, 0) }
+                                .padding(start = 10.dp, top = max(0.dp, bgHeight - 50.dp))) {
                             CoilImage(
                                 modifier = Modifier
                                     .size(135.dp, 180.dp) // Poster size (width x height)
@@ -181,16 +179,17 @@ private fun MovieDetails(
                             )
                         }
                         val posterWidthDp = with(density) { posterWidth.toDp() }
+                        val contentHeight = with(density) { (bHeightPx).toDp() }
                         Column(
                             Modifier
                                 .offset {
                                     IntOffset(
-                                        x = 0f.toInt(),
-                                        y = (bHeightPx * 1.2f).toInt()
+                                        x = 0,
+                                        y = 0
                                     )
                                 }
                                 .fillMaxWidth()
-                                .padding(start = posterWidthDp + 20.dp, top = 5.dp)) {
+                                .padding(start = posterWidthDp + 20.dp, top = contentHeight + 5.dp)) {
                             Text(
                                 modifier = Modifier.fillMaxWidth().basicMarquee(
                                     iterations = Int.MAX_VALUE,
