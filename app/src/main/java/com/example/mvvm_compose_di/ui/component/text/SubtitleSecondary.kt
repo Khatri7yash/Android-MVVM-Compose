@@ -9,6 +9,7 @@ import com.example.mvvm_compose_di.ui.theme.subTitleSecondary
 fun SubtitleSecondary(text:String) {
     Text(
         text = text,
-        style = MaterialTheme.typography.subTitleSecondary
+        style = MaterialTheme.typography.subTitleSecondary,
+        color = MaterialTheme.colorScheme.onSecondary,
     )
 }

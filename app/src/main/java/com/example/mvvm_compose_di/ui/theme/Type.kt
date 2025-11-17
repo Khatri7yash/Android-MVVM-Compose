@@ -42,7 +42,7 @@ val Typography.subTitlePrimary: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onPrimary,
-            fontSize = 14.sp
+            fontSize = 16.sp
         )
     }
 
@@ -52,6 +52,6 @@ val Typography.subTitleSecondary: TextStyle
         return TextStyle(
             fontFamily = FontFamily.Default,
             color = MaterialTheme.colorScheme.onSecondary,
-            fontSize = 10.sp,
+            fontSize = 14.sp,
         )
     }

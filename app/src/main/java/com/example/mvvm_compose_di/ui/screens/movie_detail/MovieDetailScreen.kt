@@ -1,6 +1,8 @@
 package com.example.mvvm_compose_di.ui.screens.movie_detail
 
+import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -39,6 +42,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -56,8 +60,10 @@ import com.example.mvvm_compose_di.ui.component.base.BaseColumn
 import com.example.mvvm_compose_di.ui.component.text.SubtitlePrimary
 import com.example.mvvm_compose_di.ui.component.text.SubtitleSecondary
 import com.example.mvvm_compose_di.ui.screens.base.BaseScreen
+import com.example.mvvm_compose_di.ui.theme.subTitlePrimary
 import com.example.mvvm_compose_di.utils.annotation.ThemePreview
 import com.example.mvvm_compose_di.utils.extension.hourMinutes
+import com.example.mvvm_compose_di.utils.extension.roundTo
 import com.example.mvvm_compose_di.utils.networkutils.DataState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -93,6 +99,10 @@ private fun MovieDetails(
 //            println("PRINT_STATEMENT ---->>> ${movieDetailsState.data.id}")
 //        else println("PRINT_STATEMENT ---->>> ${movieDetailsState.toString()}")
 //    }
+
+    val density = LocalDensity.current
+    var bHeightPx by remember { mutableStateOf(0f) }
+    var posterWidth by remember { mutableStateOf(0f) }
     val title by remember { mutableStateOf("Movie Details") }
     BaseScreen(
         title = title,
@@ -101,8 +111,6 @@ private fun MovieDetails(
         BaseColumn(state = movieDetailsState) {
             if (movieDetailsState is DataState.Success) {
                 val details = movieDetailsState.data
-                var bHeightPx by remember { mutableStateOf(0f) }
-                var posterWidth by remember { mutableStateOf(0f) }
                 Column(
                     modifier =
                         Modifier
@@ -117,7 +125,7 @@ private fun MovieDetails(
                             .fillMaxWidth()
                             .background(Color.Magenta)
                             .onGloballyPositioned { coords ->
-                                bHeightPx = coords.boundsInParent().height / 1.5f
+                                bHeightPx = coords.boundsInParent().height / 1.2f
                             }
                     ) {
                         CoilImage(
@@ -172,30 +180,54 @@ private fun MovieDetails(
                                 },
                             )
                         }
-
+                        val posterWidthDp = with(density) { posterWidth.toDp() }
                         Column(
                             Modifier
                                 .offset {
                                     IntOffset(
-                                        x = posterWidth.toInt(),
-                                        y = (bHeightPx * 1.5f).toInt()
+                                        x = 0f.toInt(),
+                                        y = (bHeightPx * 1.2f).toInt()
                                     )
                                 }
                                 .fillMaxWidth()
-                                .padding(start = 20.dp, top = 5.dp)) {
+                                .padding(start = posterWidthDp + 20.dp, top = 5.dp)) {
                             Text(
+                                modifier = Modifier.fillMaxWidth().basicMarquee(
+                                    iterations = Int.MAX_VALUE,
+                                    animationMode = MarqueeAnimationMode.Immediately,
+                                    velocity = 50.dp
+                                ),
                                 text = details.title,
                                 color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.headlineMedium,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1
                             )
 
                             Spacer(modifier = Modifier)
 
-                            Row {
-                                Column(Modifier.weight(1f)) {
+                            Row{
+                                Column(Modifier.weight(1f),
+                                    horizontalAlignment = Alignment.Start) {
                                     SubtitlePrimary(text = "Duration")
                                     SubtitleSecondary(text = details.runtime.hourMinutes())
+
+                                    Spacer(Modifier.height(5.dp))
+
+                                    SubtitlePrimary(text = "Language")
+                                    SubtitleSecondary(text = details.originalLanguage)
+
+                                }
+
+                                Column(Modifier.weight(1f),
+                                    horizontalAlignment = Alignment.Start) {
+                                    SubtitlePrimary(text = "Release Date")
+                                    SubtitleSecondary(text = details.runtime.hourMinutes())
+
+                                    Spacer(Modifier.height(5.dp))
+
+                                    SubtitlePrimary(text = "Rating")
+                                    SubtitleSecondary(text = details.voteAverage.roundTo(2).toString())
 
                                 }
                             }

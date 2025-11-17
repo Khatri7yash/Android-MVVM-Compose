@@ -23,7 +23,7 @@ fun <R> BaseColumn(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    var uiState by remember { mutableStateOf<DataState<R>>(DataState.Loading) }
+    var uiState by remember { mutableStateOf<DataState<R>>(state) }
 
     // Update errorState whenever errorMessage changes
     LaunchedEffect(state) {
