@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -53,10 +57,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mvvm_compose_di.data.datasource.remote.ApiURL
 import com.example.mvvm_compose_di.data.model.Genre
 import com.example.mvvm_compose_di.data.model.MovieDetail
+import com.example.mvvm_compose_di.data.model.MovieItem
 import com.example.mvvm_compose_di.data.model.ProductionCompany
 import com.example.mvvm_compose_di.data.model.ProductionCountry
 import com.example.mvvm_compose_di.data.model.SpokenLanguage
 import com.example.mvvm_compose_di.navigation.NavScreens
+import com.example.mvvm_compose_di.ui.component.MovieCard
 import com.example.mvvm_compose_di.ui.component.Movies
 import com.example.mvvm_compose_di.ui.component.base.BaseColumn
 import com.example.mvvm_compose_di.ui.component.text.ExpandableText
@@ -80,18 +86,25 @@ fun MovieDetailsScreen(movieID: Int, navigation: (NavScreens?, Array<out Any>?) 
 
     val viewModel = hiltViewModel<MovieDetailViewModel>()
     val movieDetailsState by viewModel.movieDetail.collectAsState()
+    val recommendedMovieState by viewModel.recommendedMovies.collectAsState()
 
     LaunchedEffect(movieID) {
         viewModel.fetchMovieDetails(movieID)
+        viewModel.fetchRecommendedMovies(movieID)
     }
 
-    MovieDetails(movieDetailsState, navigation)
+    MovieDetails(
+        movieDetailsState = movieDetailsState,
+        recommendedMovieState = recommendedMovieState,
+        navigation = navigation
+    )
 }
 
 
 @Composable
 private fun MovieDetails(
     movieDetailsState: DataState<MovieDetail>,
+    recommendedMovieState: DataState<List<MovieItem>>,
     navigation: (NavScreens?, Array<out Any>?) -> Unit = { nav, arr ->
     }
 ) {
@@ -258,6 +271,18 @@ private fun MovieDetails(
                         Spacer(Modifier.height(10.dp))
                         ExpandableText(Modifier, text = details.overview, textModifier = Modifier)
 
+                        BaseColumn(
+                            modifier = Modifier
+                                .padding(vertical = 10.dp)
+                                .wrapContentSize(),
+                            state = recommendedMovieState
+                        ) {
+                            if (recommendedMovieState is DataState.Success && recommendedMovieState.data.isNotEmpty()) {
+                                RecommendedMovie(recommendedMovieState.data) {
+                                    navigation(NavScreens.MovieDetailsScreen, arrayOf(it))
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -266,11 +291,39 @@ private fun MovieDetails(
     }
 }
 
+
+@Composable
+fun RecommendedMovie(
+    recommendedMovies: List<MovieItem>,
+    onRecommendedMovieClick: (MovieItem) -> Unit
+) {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = "Similar Movies:",
+        color = MaterialTheme.colorScheme.onPrimary,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.SemiBold
+    )
+    LazyRow(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()) {
+        items(recommendedMovies) { item ->
+            MovieCard(item) { movieItem ->
+                onRecommendedMovieClick(movieItem)
+            }
+        }
+    }
+
+}
+
 @ThemePreview
 //@Preview(name = "MovieDetail", showBackground = true)
 @Composable
 private fun PreviewDetailsScreen() {
-    MovieDetails(DataState.Success(getFakeMovieDetails()))
+    MovieDetails(
+        DataState.Success(getFakeMovieDetails()),
+        DataState.Success(getFakeRecommendedMovies())
+    )
 }
 
 private fun getFakeMovieDetails(): MovieDetail = MovieDetail(
@@ -330,4 +383,72 @@ private fun getFakeMovieDetails(): MovieDetail = MovieDetail(
     video = false,
     voteAverage = 7.905,
     voteCount = 1160
+)
+
+
+fun getFakeRecommendedMovies() = listOf(
+    MovieItem(
+        adult = false,
+        backdropPath = "/vfbryKoLrisx8Xh37OaTjTyrFY0.jpg",
+        genreIds = listOf(36, 18),
+        id = 760329,
+        originalLanguage = "en",
+        originalTitle = "The Smashing Machine",
+        overview = "In the late 1990s, up-and-coming mixed martial artist Mark Kerr ...",
+        popularity = 20.5561,
+        posterPath = "/mPuBDGrVIBGOymBxR6rO3iIvBSe.jpg",
+        releaseDate = "2025-10-01",
+        title = "The Smashing Machine",
+        video = false,
+        voteAverage = 6.411,
+        voteCount = 185
+    ),
+    MovieItem(
+        adult = false,
+        backdropPath = "/jUplF2dluebAYdHa901mhPVOZYU.jpg",
+        genreIds = listOf(878, 12, 28),
+        id = 533533,
+        originalLanguage = "en",
+        originalTitle = "TRON: Ares",
+        overview = "A highly sophisticated Program called Ares is sent from the digital world...",
+        popularity = 39.5287,
+        posterPath = "/chpWmskl3aKm1aTZqUHRCtviwPy.jpg",
+        releaseDate = "2025-10-08",
+        title = "TRON: Ares",
+        video = false,
+        voteAverage = 6.3,
+        voteCount = 401
+    ),
+    MovieItem(
+        adult = false,
+        backdropPath = "/mQwD7GtPTkv6WF5m8AJWGrO5XOE.jpg",
+        genreIds = listOf(18),
+        id = 1480382,
+        originalLanguage = "ar",
+        originalTitle = "صوت هند رجب",
+        overview = "January 29, 2024. Red Crescent volunteers receive an emergency call...",
+        popularity = 3.5507,
+        posterPath = "/pLGsjmpJUCuDiONghnR8JqACq3f.jpg",
+        releaseDate = "2025-09-25",
+        title = "The Voice of Hind Rajab",
+        video = false,
+        voteAverage = 8.257,
+        voteCount = 68
+    ),
+    MovieItem(
+        adult = false,
+        backdropPath = "/pcJft6lFWsJxutwpLHVYfmZRPQp.jpg",
+        genreIds = listOf(53, 27, 878),
+        id = 604079,
+        originalLanguage = "en",
+        originalTitle = "The Long Walk",
+        overview = "In a dystopian, alternate-America ruled by a totalitarian regime...",
+        popularity = 38.4094,
+        posterPath = "/wobVTa99eW0ht6c1rNNzLkazPtR.jpg",
+        releaseDate = "2025-09-10",
+        title = "The Long Walk",
+        video = false,
+        voteAverage = 6.938,
+        voteCount = 770
+    )
 )

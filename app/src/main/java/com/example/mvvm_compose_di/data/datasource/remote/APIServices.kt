@@ -21,4 +21,9 @@ interface APIServices {
     suspend fun fetchMovieDetails(
         @Path("movieId") movieId: Int
     ): MovieDetail
+
+    @GET(ApiURL.RECOMMENDED_MOVIE_ENDPOINT)
+    suspend fun fetchRecommendedMovies(
+        @Path("movieId") movieId: Int
+    ): BaseModel<MovieItem>
 }

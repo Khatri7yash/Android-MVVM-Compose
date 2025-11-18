@@ -25,10 +25,22 @@ class MoviesRepositoryImpl @Inject constructor(
         emit(DataState.Loading)
         try {
             emit(DataState.Success(apiService.fetchMovieDetails(movieId)))
-        }catch (e : Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             e.message?.let { emit(DataState.Error(it)) }
         }
 
     }
+
+    override suspend fun fetchRecommendedMovies(movieId: Int): Flow<DataState<List<MovieItem>>> =
+        flow {
+            emit(DataState.Loading)
+            try {
+                val response = apiService.fetchRecommendedMovies(movieId)
+                emit(DataState.Success(response.results))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(DataState.Error(e.message.toString()))
+            }
+        }
 }
