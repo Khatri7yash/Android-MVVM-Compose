@@ -215,7 +215,7 @@ private fun MovieDetails(
                                     ),
                                 text = details.title,
                                 color = MaterialTheme.colorScheme.primary,
-                                style = MaterialTheme.typography.headlineMedium,
+                                style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,
                                 maxLines = 1
                             )
@@ -265,7 +265,7 @@ private fun MovieDetails(
                             modifier = Modifier,
                             text = "Description:",
                             color = MaterialTheme.colorScheme.onPrimary,
-                            fontSize = 20.sp,
+                            fontSize = 17.sp,
                             fontWeight = FontWeight.SemiBold
                         )
                         Spacer(Modifier.height(10.dp))
@@ -279,7 +279,7 @@ private fun MovieDetails(
                         ) {
                             if (recommendedMovieState is DataState.Success && recommendedMovieState.data.isNotEmpty()) {
                                 RecommendedMovie(recommendedMovieState.data) {
-                                    navigation(NavScreens.MovieDetailsScreen, arrayOf(it))
+                                    navigation(NavScreens.MovieDetailsScreen, arrayOf(it.id))
                                 }
                             }
                         }
@@ -301,7 +301,7 @@ fun RecommendedMovie(
         modifier = Modifier.fillMaxWidth(),
         text = "Recommendation:",
         color = MaterialTheme.colorScheme.onPrimary,
-        fontSize = 20.sp,
+        fontSize = 17.sp,
         fontWeight = FontWeight.SemiBold
     )
     LazyRow(modifier = Modifier
