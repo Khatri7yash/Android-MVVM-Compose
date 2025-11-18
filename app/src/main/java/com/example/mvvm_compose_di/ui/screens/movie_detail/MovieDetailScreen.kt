@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +59,7 @@ import com.example.mvvm_compose_di.data.model.SpokenLanguage
 import com.example.mvvm_compose_di.navigation.NavScreens
 import com.example.mvvm_compose_di.ui.component.Movies
 import com.example.mvvm_compose_di.ui.component.base.BaseColumn
+import com.example.mvvm_compose_di.ui.component.text.ExpandableText
 import com.example.mvvm_compose_di.ui.component.text.SubtitlePrimary
 import com.example.mvvm_compose_di.ui.component.text.SubtitleSecondary
 import com.example.mvvm_compose_di.ui.screens.base.BaseScreen
@@ -90,8 +92,7 @@ fun MovieDetailsScreen(movieID: Int, navigation: (NavScreens?, Array<out Any>?) 
 @Composable
 private fun MovieDetails(
     movieDetailsState: DataState<MovieDetail>,
-    navigation: (NavScreens?, Array<out Any>?) -> Unit = {
-        nav, arr ->
+    navigation: (NavScreens?, Array<out Any>?) -> Unit = { nav, arr ->
     }
 ) {
 
@@ -116,7 +117,6 @@ private fun MovieDetails(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .background(Color.Yellow)
                             .verticalScroll(rememberScrollState())
                 ) {
 
@@ -124,7 +124,6 @@ private fun MovieDetails(
                         Modifier
                             .wrapContentHeight()
                             .fillMaxWidth()
-                            .background(Color.Magenta)
                     ) {
                         CoilImage(
                             modifier = Modifier
@@ -189,13 +188,18 @@ private fun MovieDetails(
                                     )
                                 }
                                 .fillMaxWidth()
-                                .padding(start = posterWidthDp + 20.dp, top = contentHeight + 5.dp)) {
+                                .padding(
+                                    start = posterWidthDp + 20.dp,
+                                    top = contentHeight + 5.dp
+                                )) {
                             Text(
-                                modifier = Modifier.fillMaxWidth().basicMarquee(
-                                    iterations = Int.MAX_VALUE,
-                                    animationMode = MarqueeAnimationMode.Immediately,
-                                    velocity = 50.dp
-                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .basicMarquee(
+                                        iterations = Int.MAX_VALUE,
+                                        animationMode = MarqueeAnimationMode.Immediately,
+                                        velocity = 50.dp
+                                    ),
                                 text = details.title,
                                 color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.headlineMedium,
@@ -205,9 +209,11 @@ private fun MovieDetails(
 
                             Spacer(modifier = Modifier)
 
-                            Row{
-                                Column(Modifier.weight(1f),
-                                    horizontalAlignment = Alignment.Start) {
+                            Row {
+                                Column(
+                                    Modifier.weight(1f),
+                                    horizontalAlignment = Alignment.Start
+                                ) {
                                     SubtitlePrimary(text = "Duration")
                                     SubtitleSecondary(text = details.runtime.hourMinutes())
 
@@ -218,20 +224,42 @@ private fun MovieDetails(
 
                                 }
 
-                                Column(Modifier.weight(1f),
-                                    horizontalAlignment = Alignment.Start) {
+                                Column(
+                                    Modifier.weight(1f),
+                                    horizontalAlignment = Alignment.Start
+                                ) {
                                     SubtitlePrimary(text = "Release Date")
                                     SubtitleSecondary(text = details.runtime.hourMinutes())
 
                                     Spacer(Modifier.height(5.dp))
 
                                     SubtitlePrimary(text = "Rating")
-                                    SubtitleSecondary(text = details.voteAverage.roundTo(2).toString())
+                                    SubtitleSecondary(
+                                        text = details.voteAverage.roundTo(2).toString()
+                                    )
 
                                 }
                             }
                         }
                     }
+                    Spacer(Modifier.height(15.dp))
+
+                    Column(
+                        Modifier
+                            .padding(start = 10.dp, end = 10.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier,
+                            text = "Description",
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(Modifier.height(10.dp))
+                        ExpandableText(Modifier, text = details.overview, textModifier = Modifier)
+
+                    }
+
                 }
             }
         }
