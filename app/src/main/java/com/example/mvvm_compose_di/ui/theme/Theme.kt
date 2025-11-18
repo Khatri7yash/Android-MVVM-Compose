@@ -15,26 +15,26 @@ private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = Color.Red,
-    surface = Color.Red,
-    onPrimary = Color.Red,
-    onSecondary = Color.Red,
+//    background = Color.Red,
+//    surface = Color.Red,
+    onPrimary = subTitlePrimaryDark,
+    onSecondary = subTitleSecondaryDark,
     onTertiary = Color.Red,
-    onBackground = Color.Red,
-    onSurface = Color.Red,
+//    onBackground = Color.Red,
+//    onSurface = Color.Red,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
+//    background = Color(0xFFFFFBFE),
+//    surface = Color(0xFFFFFBFE),
+    onPrimary = subTitlePrimaryLight,
+    onSecondary = subTitleSecondaryLight,
     onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
+//    onBackground = Color(0xFF1C1B1F),
+//    onSurface = Color(0xFF1C1B1F),
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -51,7 +51,7 @@ private val LightColorScheme = lightColorScheme(
 fun MvvmComposeDiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

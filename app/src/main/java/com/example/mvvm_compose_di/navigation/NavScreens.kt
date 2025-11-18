@@ -25,7 +25,7 @@ enum class NavScreens(
     MovieDetailsScreen(
         "MovieDetails",
         "Movie Details",
-        argsName = arrayOf(navArgument("MovieDetails") {
+        argsName = arrayOf(navArgument("/{movieItem}") {
             type = NavType.IntType
             nullable = false
             defaultValue = 0

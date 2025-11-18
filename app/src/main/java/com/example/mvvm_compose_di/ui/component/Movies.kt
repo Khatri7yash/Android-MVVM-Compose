@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -58,8 +60,10 @@ fun DisplayMovie(
         items(moviesItems.itemCount) { index ->
             moviesItems[index]?.let {
                 MovieCard(
-                    it,
-                    onclick
+                    modifier = Modifier
+                        .height(250.dp),
+                    movieItem = it,
+                    onclick = onclick
                 )
             }
         }
@@ -68,17 +72,18 @@ fun DisplayMovie(
 
 @Composable
 fun MovieCard(
+    modifier: Modifier = Modifier,
     movieItem: MovieItem,
     onclick: (MovieItem) -> Unit
 ) {
     CoilImage(
         modifier = Modifier
-            .height(250.dp)
             .padding(5.dp)
-            .roundedShape(10)
             .clickable {
                 onclick(movieItem)
-            },
+            }
+            .clip(RoundedCornerShape(10.dp))
+            .then(modifier),
         imageOptions = ImageOptions(contentScale = ContentScale.Crop),
         imageModel = { ApiURL.IMAGE_URL + movieItem.posterPath },
         loading = {
