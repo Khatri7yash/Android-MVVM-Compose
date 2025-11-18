@@ -263,7 +263,7 @@ private fun MovieDetails(
                     ) {
                         Text(
                             modifier = Modifier,
-                            text = "Description",
+                            text = "Description:",
                             color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold
@@ -299,7 +299,7 @@ fun RecommendedMovie(
 ) {
     Text(
         modifier = Modifier.fillMaxWidth(),
-        text = "Similar Movies:",
+        text = "Recommendation:",
         color = MaterialTheme.colorScheme.onPrimary,
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold
@@ -308,7 +308,7 @@ fun RecommendedMovie(
         .fillMaxWidth()
         .wrapContentHeight()) {
         items(recommendedMovies) { item ->
-            MovieCard(item) { movieItem ->
+            MovieCard(modifier = Modifier.height(200.dp), movieItem = item) { movieItem ->
                 onRecommendedMovieClick(movieItem)
             }
         }

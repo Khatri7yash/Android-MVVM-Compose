@@ -60,8 +60,10 @@ fun DisplayMovie(
         items(moviesItems.itemCount) { index ->
             moviesItems[index]?.let {
                 MovieCard(
-                    it,
-                    onclick
+                    modifier = Modifier
+                        .height(250.dp),
+                    movieItem = it,
+                    onclick = onclick
                 )
             }
         }
@@ -70,17 +72,18 @@ fun DisplayMovie(
 
 @Composable
 fun MovieCard(
+    modifier: Modifier = Modifier,
     movieItem: MovieItem,
     onclick: (MovieItem) -> Unit
 ) {
     CoilImage(
         modifier = Modifier
-            .height(250.dp)
             .padding(5.dp)
             .clickable {
                 onclick(movieItem)
             }
-            .clip(RoundedCornerShape(10.dp)),
+            .clip(RoundedCornerShape(10.dp))
+            .then(modifier),
         imageOptions = ImageOptions(contentScale = ContentScale.Crop),
         imageModel = { ApiURL.IMAGE_URL + movieItem.posterPath },
         loading = {
