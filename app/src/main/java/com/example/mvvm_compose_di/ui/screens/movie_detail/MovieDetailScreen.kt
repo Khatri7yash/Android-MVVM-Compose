@@ -242,7 +242,7 @@ private fun MovieDetails(
                                     horizontalAlignment = Alignment.Start
                                 ) {
                                     SubtitlePrimary(text = "Release Date")
-                                    SubtitleSecondary(text = details.runtime.hourMinutes())
+                                    SubtitleSecondary(text = details.releaseDate)
 
                                     Spacer(Modifier.height(5.dp))
 
