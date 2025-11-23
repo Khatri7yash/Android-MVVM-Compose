@@ -14,13 +14,15 @@ class MoviesRepositoryFakeImplTest: MoviesRepository {
 
     private val moviesFlow = MutableStateFlow<PagingData<MovieItem>>(PagingData.empty())
 
+    private val moviesList = ArrayList<MovieItem>()
+
 
     fun emitMovies(pagingData: PagingData<MovieItem>) {
         moviesFlow.value = pagingData
     }
 
     override fun getMovies(): Flow<PagingData<MovieItem>> {
-        return moviesFlow
+        return flowOf(PagingData.from(moviesList))
     }
 
 

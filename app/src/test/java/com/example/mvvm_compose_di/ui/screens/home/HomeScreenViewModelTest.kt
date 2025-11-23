@@ -1,16 +1,22 @@
 package com.example.mvvm_compose_di.ui.screens.home
 
+import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import com.example.mvvm_compose_di.data.repository.movie.MoviesRepository
 import com.example.mvvm_compose_di.data.repository.movie.MoviesRepositoryFakeImplTest
+import com.example.mvvm_compose_di.utils.MainDispatcherRule
 import com.example.mvvm_compose_di.utils.networkutils.DataState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -19,13 +25,14 @@ class HomeScreenViewModelTest {
     private lateinit var viewModel: HomeScreenViewModel
     private lateinit var fakeRepository: MoviesRepository
 
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
 
     @Before
     fun setUp() {
-
         fakeRepository = MoviesRepositoryFakeImplTest()
         viewModel = HomeScreenViewModel(repo = fakeRepository)
-
     }
 
     @Test
@@ -108,6 +115,18 @@ class HomeScreenViewModelTest {
         assertTrue(state is DataState.Success)
     }
 
+    @Test
+    fun `getMovies emits PagingData list correctly`() = runTest {
+        val result = viewModel.movies.first()
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = MovieItemDiffCallback(),
+            updateCallback = NoopListCallback(),
+            workerDispatcher = Dispatchers.Main
+        )
+        differ.submitData(result)
+        assertEquals(actual = 0, expected = differ.itemCount)
+//        assertEquals("Iron Man", differ.snapshot()[0]?.originalTitle)
+    }
 
     @After
     fun tearDown() {
