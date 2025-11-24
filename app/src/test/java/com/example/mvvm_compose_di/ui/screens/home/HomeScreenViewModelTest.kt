@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withTimeout
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -117,7 +118,10 @@ class HomeScreenViewModelTest {
 
     @Test
     fun `getMovies emits PagingData list correctly`() = runTest {
-        val result = viewModel.movies.first()
+        val result = withTimeout(2000) {
+            viewModel.movies.first()
+        }
+
         val differ = AsyncPagingDataDiffer(
             diffCallback = MovieItemDiffCallback(),
             updateCallback = NoopListCallback(),
