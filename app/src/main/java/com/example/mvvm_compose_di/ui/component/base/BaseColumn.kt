@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.example.mvvm_compose_di.utils.networkutils.DataState
 
 
@@ -36,7 +37,7 @@ fun <R> BaseColumn(
     ) {
         when (uiState) {
             is DataState.Loading -> {
-                CircularProgressIndicator()
+                CircularProgressIndicator(modifier = Modifier.testTag("ProgressIndicator"))
             }
 
             is DataState.Success -> {

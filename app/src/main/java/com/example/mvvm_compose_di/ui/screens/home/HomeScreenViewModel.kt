@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    val repo: MoviesRepository
+     repo: MoviesRepository
+//    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DataState<Any>>(DataState.Loading)
