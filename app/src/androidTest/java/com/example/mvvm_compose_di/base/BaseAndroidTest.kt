@@ -1,8 +1,6 @@
-package com.example.mvvm_compose_di.ui
+package com.example.mvvm_compose_di.base
 
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.example.mvvm_compose_di.ui.screens.activity.MainActivity
 import com.example.mvvm_compose_di.utils.MainDispatcherRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

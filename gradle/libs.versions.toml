@@ -25,6 +25,7 @@ junitJupiter = "5.8.1"
 turbine = "1.0.0"
 coroutine-test = "1.8.1"
 hilt-test = "2.51"
+mockk = "1.13.12"
 
 
 [libraries]
@@ -62,6 +63,7 @@ landscapist-animation = { module = "com.github.skydoves:landscapist-animation", 
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 androidx-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 androidx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine-test" }
+mockk-io = { module = "io.mockk:mockk", version.ref = "mockk" }
 #landscapist-bom = { module = "com.github.skydoves:landscapist-bom", version.ref = "landscapist" }
 
 [plugins]
