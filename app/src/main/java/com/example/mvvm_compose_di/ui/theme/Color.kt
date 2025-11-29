@@ -1,5 +1,7 @@
 package com.example.mvvm_compose_di.ui.theme
 
+import androidx.compose.material3.ButtonColors
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -14,3 +16,12 @@ val subTitlePrimaryLight = Color(0xFF000000)
 val subTitlePrimaryDark = Color(0xFFFFFFFF)
 val subTitleSecondaryLight = Color(0xFF918C8E)
 val subTitleSecondaryDark = Color(0xFF918C8E)
+
+
+val redButtonColor : ButtonColors =
+    ButtonColors(
+        containerColor = Color.Red,
+        contentColor = Color.White,
+        disabledContainerColor = Color.White,
+        disabledContentColor = Color.White
+    )
