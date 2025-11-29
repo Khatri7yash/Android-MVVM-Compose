@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mvvm_compose_di.ui.screens.home.HomeScreen
 import com.example.mvvm_compose_di.ui.screens.movie_detail.MovieDetailsScreen
+import com.example.mvvm_compose_di.ui.screens.settings.SettingsScreen
 
 val LocalCurrentRoute = (compositionLocalOf<String?> { null })
 
@@ -39,6 +40,10 @@ fun Navigation() {
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 
+                        NavScreens.SettingsScreen -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+
                         NavScreens.MovieDetailsScreen -> {
                             val key =
                                 NavScreens.MovieDetailsScreen.argsName[0].name.substringAfter("{")
@@ -60,6 +65,8 @@ fun Navigation() {
 private infix fun NavHostController.navigateRoute(navigationPair: NavigationData) {
     val (navigation, args) = navigationPair
     navigation?.let {
-        this.navigate(it.route + args?.joinToString(separator = "/", prefix = "/"))
+        args?.let { array ->
+            navigate(it.route + array.apply { joinToString(separator = "/", prefix = "/") })
+        } ?: navigate(it.route)
     } ?: run { this.popBackStack() }
 }

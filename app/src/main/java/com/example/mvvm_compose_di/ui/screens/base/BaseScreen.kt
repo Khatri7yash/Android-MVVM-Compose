@@ -35,6 +35,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -72,10 +73,23 @@ fun BaseScreen(
     val isConnected = connection == ConnectionState.Available
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val drawerItems = listOf<String>("Profile", "Settings")
+    val drawerItems = listOf("Home", "Profile", "Settings")
+    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+
+    LaunchedEffect(route) {
+        if (route == NavScreens.HomeScreen.route) {
+            selectedItem = 0
+        }
+    }
 
     MvvmComposeDiTheme {
-        NavigationDrawer(scope, drawerState, drawerItems) {
+        NavigationDrawer(
+            selected = selectedItem,
+            navigation = navigation,
+            scope,
+            drawerState,
+            drawerItems
+        ) {
             Scaffold(
                 modifier = Modifier
                     .fillMaxSize()
@@ -140,12 +154,19 @@ fun BaseScreen(
 
 @Composable
 private fun NavigationDrawer(
+    selected: Int,
+    navigation: (NavScreens?, Array<out Any>?) -> Unit,
     scope: CoroutineScope,
     drawerState: androidx.compose.material3.DrawerState,
     drawerItems: List<String>,
     content: @Composable () -> Unit
 ) {
-    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+    var selectedItem by rememberSaveable { mutableIntStateOf(selected) }
+
+    LaunchedEffect(selected) {
+        selectedItem = selected
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -198,6 +219,10 @@ private fun NavigationDrawer(
                                         scope.launch {
                                             drawerState.apply { close() }
                                         }
+                                        manageNavigation(
+                                            item,
+                                            navigation
+                                        )
                                     },
                                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                                 )
@@ -221,6 +246,18 @@ private fun NavigationDrawer(
         }) {
         content()
     }
+}
+
+
+private fun manageNavigation(
+    identifier: String,
+    navigation: (NavScreens?, Array<Any>?) -> Unit
+) {
+
+    when (identifier) {
+        "Settings" -> navigation(NavScreens.SettingsScreen, null)
+    }
+
 }
 
 @ThemePreview

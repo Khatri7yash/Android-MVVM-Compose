@@ -31,5 +31,6 @@ enum class NavScreens(
             defaultValue = 0
         })
     ),
+    SettingsScreen(route = "Settings", "Settings")
 //    PopBackStack("", "")
 }
