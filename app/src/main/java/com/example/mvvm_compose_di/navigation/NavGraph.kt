@@ -36,11 +36,20 @@ fun Navigation() {
                     arguments = screens.argsName.toList()
                 ) { backStackEntry ->
                     when (screens) {
-                        NavScreens.HomeScreen -> HomeScreen { navigation, args ->
+                        NavScreens.HomeScreen, NavScreens.AllMovies -> HomeScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 
                         NavScreens.SettingsScreen -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.Popular -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.TopRated -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.UpComing -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 

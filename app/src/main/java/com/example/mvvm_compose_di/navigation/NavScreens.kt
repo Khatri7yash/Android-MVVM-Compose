@@ -31,6 +31,10 @@ enum class NavScreens(
             defaultValue = 0
         })
     ),
-    SettingsScreen(route = "Settings", "Settings")
+    SettingsScreen(route = "Settings", "Settings"),
+    AllMovies(route = "Home", "All"),
+    Popular(route = "Popular", "Popular"),
+    TopRated(route = "TopRated", "Top Rated"),
+    UpComing(route = "UpComing", "Up Coming")
 //    PopBackStack("", "")
 }

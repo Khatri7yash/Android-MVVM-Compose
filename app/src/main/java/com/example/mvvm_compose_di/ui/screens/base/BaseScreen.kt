@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -27,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
@@ -74,6 +78,8 @@ fun BaseScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val drawerItems = listOf("Home", "Profile", "Settings")
+    val bottomNavItems =
+        listOf(NavScreens.AllMovies, NavScreens.Popular, NavScreens.TopRated, NavScreens.UpComing)
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
 
     LaunchedEffect(route) {
@@ -130,7 +136,12 @@ fun BaseScreen(
                         actions = {})
 
                 },
-                bottomBar = {},
+                bottomBar = {
+                    NavigationBar {
+
+                    }
+
+                },
                 snackbarHost = {
                     if (!isConnected) {
                         Snackbar(modifier = Modifier.padding(8.dp)) {
@@ -213,6 +224,17 @@ private fun NavigationDrawer(
                             drawerItems.forEachIndexed { index, item ->
                                 NavigationDrawerItem(
                                     label = { Text(text = item) },
+                                    icon = {
+                                        Icon(
+                                            imageVector =
+                                                when (item) {
+                                                    "Home" -> Icons.Rounded.Home
+                                                    "Settings" -> Icons.Rounded.Settings
+                                                    else -> Icons.Rounded.Person
+                                                },
+                                            contentDescription = item
+                                        )
+                                    },
                                     selected = index == selectedItem,
                                     onClick = {
                                         selectedItem = index
