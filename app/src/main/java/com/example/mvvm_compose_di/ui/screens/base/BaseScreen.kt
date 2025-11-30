@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
@@ -81,6 +82,7 @@ fun BaseScreen(
     val bottomNavItems =
         listOf(NavScreens.AllMovies, NavScreens.Popular, NavScreens.TopRated, NavScreens.UpComing)
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+    val bottomNavVisibleScreens = listOf<String>(NavScreens.HomeScreen.route, NavScreens.AllMovies.route, NavScreens.Popular.route, NavScreens.TopRated.route, NavScreens.UpComing.route)
 
     LaunchedEffect(route) {
         if (route == NavScreens.HomeScreen.route) {
@@ -107,7 +109,7 @@ fun BaseScreen(
                         },
                         navigationIcon = {
                             when (route) {
-                                NavScreens.HomeScreen.route -> {
+                                NavScreens.HomeScreen.route, NavScreens.AllMovies.route -> {
                                     IconButton(onClick = {
                                         drawerState.apply {
                                             scope.launch {
@@ -137,10 +139,20 @@ fun BaseScreen(
 
                 },
                 bottomBar = {
-                    NavigationBar {
-
+                    if(bottomNavVisibleScreens.contains(route)) {
+                        NavigationBar {
+                            bottomNavItems.forEachIndexed { index, screens ->
+                                NavigationBarItem(
+                                    selected = route == screens.route,
+                                    onClick = {
+                                        navigation(screens, null)
+                                    },
+                                    icon = screens.navIcon,
+                                    label = { Text(screens.title) }
+                                )
+                            }
+                        }
                     }
-
                 },
                 snackbarHost = {
                     if (!isConnected) {

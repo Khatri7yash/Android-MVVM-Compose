@@ -75,7 +75,11 @@ private infix fun NavHostController.navigateRoute(navigationPair: NavigationData
     val (navigation, args) = navigationPair
     navigation?.let {
         args?.let { array ->
-            navigate(it.route + array.apply { joinToString(separator = "/", prefix = "/") })
-        } ?: navigate(it.route)
+            this.navigate(it.route + array.joinToString(separator = "/", prefix = "/") )
+        } ?: this.navigate(it.route){
+            launchSingleTop = true
+            restoreState = true
+            popUpTo(this@navigateRoute.graph.startDestinationId) { saveState = true }
+        }
     } ?: run { this.popBackStack() }
 }
