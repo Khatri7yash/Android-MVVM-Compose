@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mvvm_compose_di.ui.screens.home.HomeScreen
 import com.example.mvvm_compose_di.ui.screens.movie_detail.MovieDetailsScreen
+import com.example.mvvm_compose_di.ui.screens.settings.SettingsScreen
 
 val LocalCurrentRoute = (compositionLocalOf<String?> { null })
 
@@ -35,7 +36,20 @@ fun Navigation() {
                     arguments = screens.argsName.toList()
                 ) { backStackEntry ->
                     when (screens) {
-                        NavScreens.HomeScreen -> HomeScreen { navigation, args ->
+                        NavScreens.HomeScreen, NavScreens.AllMovies -> HomeScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+
+                        NavScreens.SettingsScreen -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.Popular -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.TopRated -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.UpComing -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 
@@ -60,6 +74,12 @@ fun Navigation() {
 private infix fun NavHostController.navigateRoute(navigationPair: NavigationData) {
     val (navigation, args) = navigationPair
     navigation?.let {
-        this.navigate(it.route + args?.joinToString(separator = "/", prefix = "/"))
+        args?.let { array ->
+            this.navigate(it.route + array.joinToString(separator = "/", prefix = "/") )
+        } ?: this.navigate(it.route){
+            launchSingleTop = true
+            restoreState = true
+            popUpTo(this@navigateRoute.graph.startDestinationId) { saveState = true }
+        }
     } ?: run { this.popBackStack() }
 }
