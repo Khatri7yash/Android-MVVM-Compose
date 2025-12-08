@@ -66,7 +66,7 @@ dependencies {
     testImplementation(libs.androidx.coroutines.test)
     testImplementation(libs.mockk.io)
     testImplementation(kotlin("test"))
-    testImplementation("androidx.paging:paging-testing:3.3.6")
+    testImplementation(libs.androidx.paging.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.mockk.io)
