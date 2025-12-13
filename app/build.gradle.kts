@@ -45,6 +45,16 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    android {
+        packaging {
+            resources {
+                pickFirsts += "/META-INF/LICENSE.md"
+                pickFirsts += "/META-INF/LICENSE-notice.md"
+            }
+        }
+    }
+
     buildFeatures {
         compose = true
         buildConfig = true

@@ -50,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -85,7 +86,7 @@ fun BaseScreen(
     val bottomNavVisibleScreens = listOf<String>(NavScreens.HomeScreen.route, NavScreens.AllMovies.route, NavScreens.Popular.route, NavScreens.TopRated.route, NavScreens.UpComing.route)
 
     LaunchedEffect(route) {
-        if (route == NavScreens.HomeScreen.route) {
+        if (route == NavScreens.HomeScreen.route || route == NavScreens.AllMovies.route) {
             selectedItem = 0
         }
     }
@@ -104,13 +105,18 @@ fun BaseScreen(
                     .background(MaterialTheme.colorScheme.background),
                 topBar = {
                     CenterAlignedTopAppBar(
+                        modifier = Modifier.testTag("topBar"),
                         title = {
-                            Text(text = title)
+                            Text(modifier = Modifier.testTag("screenTitle"),
+                                text = title)
                         },
                         navigationIcon = {
-                            when (route) {
-                                NavScreens.HomeScreen.route, NavScreens.AllMovies.route -> {
-                                    IconButton(onClick = {
+                            when{
+                                bottomNavItems.any { predicate -> predicate.route == route } ->{
+//                                NavScreens.HomeScreen.route, NavScreens.AllMovies.route -> {
+                                    IconButton(
+                                        modifier = Modifier.testTag("drawerIcon"),
+                                        onClick = {
                                         drawerState.apply {
                                             scope.launch {
                                                 if (drawerState.isClosed) open() else close()
@@ -140,9 +146,10 @@ fun BaseScreen(
                 },
                 bottomBar = {
                     if(bottomNavVisibleScreens.contains(route)) {
-                        NavigationBar {
+                        NavigationBar(modifier = Modifier.testTag("bottomBar")) {
                             bottomNavItems.forEachIndexed { index, screens ->
                                 NavigationBarItem(
+                                    modifier = Modifier.testTag(screens.title),
                                     selected = route == screens.route,
                                     onClick = {
                                         navigation(screens, null)
