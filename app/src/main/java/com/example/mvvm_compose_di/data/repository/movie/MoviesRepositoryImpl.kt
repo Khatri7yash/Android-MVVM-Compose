@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.mvvm_compose_di.data.datasource.remote.APIServices
 import com.example.mvvm_compose_di.data.datasource.remote.movies.NowPlayingMoviePagingDataSource
+import com.example.mvvm_compose_di.data.datasource.remote.movies.PopularMoviesPagingDataSource
 import com.example.mvvm_compose_di.data.model.MovieDetail
 import com.example.mvvm_compose_di.data.model.MovieItem
 import com.example.mvvm_compose_di.utils.networkutils.DataState
@@ -20,6 +21,14 @@ class MoviesRepositoryImpl @Inject constructor(
             pagingSourceFactory = { NowPlayingMoviePagingDataSource(apiService) },
             config = PagingConfig(pageSize = 20)
         ).flow
+
+    override fun getPopularMovies(): Flow<PagingData<MovieItem>> =
+        Pager(
+            pagingSourceFactory = { PopularMoviesPagingDataSource(apiService)},
+            config = PagingConfig(pageSize = 20,
+                enablePlaceholders = true)
+        ).flow
+
 
     override suspend fun fetchMovieDetails(movieId: Int): Flow<DataState<MovieDetail>> = flow {
         emit(DataState.Loading)

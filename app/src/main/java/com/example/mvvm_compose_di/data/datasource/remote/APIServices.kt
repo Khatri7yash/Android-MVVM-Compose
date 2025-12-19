@@ -17,6 +17,11 @@ interface APIServices {
 //        @Query("with_genres") genreId: String?
     ): BaseModel<MovieItem>
 
+    @GET(ApiURL.POPULAR_MOVIES_ENDPOINT)
+    suspend fun getPopularMovies(
+        @Query("page") page: Int,
+    ): BaseModel<MovieItem>
+
     @GET(ApiURL.MOVIE_DETAILS_ENDPOINT)
     suspend fun fetchMovieDetails(
         @Path("movieId") movieId: Int

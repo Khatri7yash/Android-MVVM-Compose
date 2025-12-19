@@ -15,7 +15,9 @@ fun PopularScreen(navigation: (NavScreens?, Array<out Any>?) -> Unit){
         title = title,
         navigation = navigation
     ){
-
+//        BaseColumn(state = ) {
+//
+//        }
     }
 
 }
