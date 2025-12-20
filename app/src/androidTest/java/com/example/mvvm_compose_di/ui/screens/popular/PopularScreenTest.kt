@@ -105,6 +105,7 @@ class PopularScreenTest: BaseAndroidTest() {
 
     @Test
     fun selectPopularTab() = runTest {
+        every { viewModel.loadingState } returns flowOf(DataState.Loading).stateIn(this)
         composeRule.apply {
             mainClock.advanceTimeBy(5_000)
             waitForIdle()
