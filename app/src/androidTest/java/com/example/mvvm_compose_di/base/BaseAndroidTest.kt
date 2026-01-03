@@ -1,6 +1,8 @@
 package com.example.mvvm_compose_di.base
 
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.example.mvvm_compose_di.ui.screens.activity.MainActivity
 import com.example.mvvm_compose_di.utils.MainDispatcherRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -15,14 +17,20 @@ open class BaseAndroidTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val composeRule = createComposeRule()
-//    val composeRule = createAndroidComposeRule<MainActivity>()
+//    val composeRule = createComposeRule()
+    val composeRule = createAndroidComposeRule<MainActivity>().apply {
+        mainClock.autoAdvance = false
+    }
 
     @get:Rule(order = 2)
     val mainDispatcherRule = MainDispatcherRule()
 
     open fun setup() {
         hiltRule.inject()
+    }
+
+    open fun tearDown(){
+
     }
 
 

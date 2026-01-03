@@ -8,6 +8,7 @@ import com.example.mvvm_compose_di.data.repository.movie.MoviesRepository
 import com.example.mvvm_compose_di.data.repository.movie.MoviesRepositoryFakeImplTest
 import com.example.mvvm_compose_di.utils.MainDispatcherRule
 import com.example.mvvm_compose_di.utils.networkutils.DataState
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -24,7 +25,7 @@ import kotlin.test.assertTrue
 class HomeScreenViewModelTest {
 
     private lateinit var viewModel: HomeScreenViewModel
-    private lateinit var fakeRepository: MoviesRepository
+    private val fakeRepository: MoviesRepository = mockk()
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -32,7 +33,6 @@ class HomeScreenViewModelTest {
 
     @Before
     fun setUp() {
-        fakeRepository = MoviesRepositoryFakeImplTest()
         viewModel = HomeScreenViewModel(repo = fakeRepository)
     }
 

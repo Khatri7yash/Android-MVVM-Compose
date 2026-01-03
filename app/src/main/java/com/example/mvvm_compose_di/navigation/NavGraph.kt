@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mvvm_compose_di.ui.screens.home.HomeScreen
 import com.example.mvvm_compose_di.ui.screens.movie_detail.MovieDetailsScreen
+import com.example.mvvm_compose_di.ui.screens.popular.PopularScreen
 import com.example.mvvm_compose_di.ui.screens.settings.SettingsScreen
 
 val LocalCurrentRoute = (compositionLocalOf<String?> { null })
@@ -28,7 +29,7 @@ fun Navigation() {
     CompositionLocalProvider(LocalCurrentRoute provides currentRoute) {
         NavHost(
             navController = navController,
-            startDestination = NavScreens.HomeScreen.route
+            startDestination = NavScreens.AllMovies.route
         ) {
             NavScreens.entries.forEach { screens ->
                 composable(
@@ -43,7 +44,7 @@ fun Navigation() {
                         NavScreens.SettingsScreen -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
-                        NavScreens.Popular -> SettingsScreen { navigation, args ->
+                        NavScreens.Popular -> PopularScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
                         NavScreens.TopRated -> SettingsScreen { navigation, args ->

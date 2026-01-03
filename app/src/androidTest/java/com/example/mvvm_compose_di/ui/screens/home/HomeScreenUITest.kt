@@ -25,16 +25,16 @@ class HomeScreenUITest : BaseAndroidTest() {
 
     @Test
     fun loadingState_showsProgressIndicator(){
-        composeRule.setContent {
-            HomeContentScreen(
-                title = "Movies",
-                navigation = { _, _ -> },
-                uiState = DataState.Loading,
-                moviesItems = flowOf( PagingData.empty<MovieItem>()).collectAsLazyPagingItems()
-            )
+        composeRule.apply {
+//            HomeContentScreen(
+//                title = "Movies",
+//                navigation = { _, _ -> },
+//                uiState = DataState.Loading,
+//                moviesItems = flowOf( PagingData.empty<MovieItem>()).collectAsLazyPagingItems()
+//            )
+            onNode(isDialog()).assertDoesNotExist()
+            onNodeWithTag("ProgressIndicator").assertIsDisplayed()
         }
-        composeRule.onNode(isDialog()).assertDoesNotExist()
-        composeRule.onNodeWithTag("ProgressIndicator").assertIsDisplayed()
     }
 
 }

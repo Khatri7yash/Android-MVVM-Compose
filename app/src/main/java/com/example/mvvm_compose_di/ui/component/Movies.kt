@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.example.mvvm_compose_di.data.datasource.remote.ApiURL
@@ -61,7 +62,8 @@ fun DisplayMovie(
             moviesItems[index]?.let {
                 MovieCard(
                     modifier = Modifier
-                        .height(250.dp),
+                        .height(250.dp)
+                        .testTag(it.id.toString()),
                     movieItem = it,
                     onclick = onclick
                 )
@@ -77,7 +79,7 @@ fun MovieCard(
     onclick: (MovieItem) -> Unit
 ) {
     CoilImage(
-        modifier = Modifier
+        modifier = modifier
             .padding(5.dp)
             .clickable {
                 onclick(movieItem)

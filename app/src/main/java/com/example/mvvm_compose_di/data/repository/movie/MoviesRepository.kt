@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
     fun getMovies(): Flow<PagingData<MovieItem>>
-
+    fun getPopularMovies(): Flow<PagingData<MovieItem>>
     suspend fun fetchMovieDetails(movieId: Int): Flow<DataState<MovieDetail>>
     suspend fun fetchRecommendedMovies(movieId: Int): Flow<DataState<List<MovieItem>>>
 }

@@ -45,6 +45,16 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    android {
+        packaging {
+            resources {
+                pickFirsts += "/META-INF/LICENSE.md"
+                pickFirsts += "/META-INF/LICENSE-notice.md"
+            }
+        }
+    }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -69,7 +79,7 @@ dependencies {
     testImplementation(libs.androidx.paging.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.mockk.io)
+    androidTestImplementation(libs.mockk.io.android)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.hilt.android.test)
