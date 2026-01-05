@@ -265,7 +265,7 @@ private fun NavigationDrawer(
                                             navigation
                                         )
                                     },
-                                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding).testTag(item)
                                 )
                             }
                         }

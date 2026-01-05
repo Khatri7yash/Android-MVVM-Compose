@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.example.mvvm_compose_di.ui.screens.home.HomeScreen
 import com.example.mvvm_compose_di.ui.screens.movie_detail.MovieDetailsScreen
 import com.example.mvvm_compose_di.ui.screens.popular.PopularScreen
+import com.example.mvvm_compose_di.ui.screens.scanner.ScannerScreen
 import com.example.mvvm_compose_di.ui.screens.settings.SettingsScreen
 
 val LocalCurrentRoute = (compositionLocalOf<String?> { null })
@@ -51,6 +52,9 @@ fun Navigation() {
                             navController navigateRoute (NavigationData(navigation, args))
                         }
                         NavScreens.UpComing -> SettingsScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+                        NavScreens.ScannerScreen -> ScannerScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 
