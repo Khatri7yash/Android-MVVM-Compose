@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Mvvm-Compose-Di"
 include(":app")
+include(":extlib")
