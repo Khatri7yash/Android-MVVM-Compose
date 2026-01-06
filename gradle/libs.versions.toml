@@ -28,6 +28,9 @@ coroutine-test = "1.8.1"
 hilt-test = "2.51"
 mockk = "1.13.12"
 mockk-android = "1.12.3"
+jetbrainsKotlinJvm = "2.0.21"
+appcompat = "1.7.1"
+material = "1.13.0"
 
 
 [libraries]
@@ -68,6 +71,8 @@ androidx-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.
 androidx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine-test" }
 mockk-io = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-io-android = { module = "io.mockk:mockk-android", version.ref = "mockk-android" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 #landscapist-bom = { module = "com.github.skydoves:landscapist-bom", version.ref = "landscapist" }
 
 [plugins]
@@ -77,3 +82,5 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleService" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
