@@ -27,14 +27,22 @@ open class ExtLib {
         launch {
             producer()
         }
-        launch {
+        val job = launch {
             consumer()
         }
-//        producer()
-//        consumer()
+
+//        delay(5000)
+
+//        job.cancel()
+
 //        }
     }
 
+
+    /**
+     * Channels can have only single consumer at a time.
+     * The first one attached will get all the emitted data
+     * */
     private suspend fun consumer() {
         channel.consumeAsFlow().collect {
             println("Channel Flows -> $it")
@@ -56,11 +64,16 @@ open class ExtLib {
     }
 
     private suspend fun producer() {
-        channel.send(1)
-        channel.send(2)
-        channel.send(3)
-        delay(3000)
-        channel.send(4)
+        val list = listOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        list.forEach {
+            delay(1000)
+            channel.send(it)
+        }
+//        channel.send(1)
+//        channel.send(2)
+//        channel.send(3)
+//        delay(3000)
+//        channel.send(4)
         channel.close()
     }
 }
