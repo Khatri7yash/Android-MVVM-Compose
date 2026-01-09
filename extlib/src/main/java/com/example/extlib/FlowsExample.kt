@@ -3,7 +3,10 @@ package com.example.extlib
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -13,9 +16,12 @@ import kotlinx.coroutines.runBlocking
 fun main() {
     runBlocking {
 //        consumerWithJobCancel()
-        multipleConsumerWithDiffTimeOfAttach()
+//        multipleConsumerWithDiffTimeOfAttach()
 //        multipleConsumerWithDiffTimeOfAttachCancellingB()
 //        multipleConsumerWithDiffTimeOfAttachUsingAsync()
+//        zipTwoFlows()
+//        mergeTwoFlows()
+        combineTwoFlows()
     }
 }
 
@@ -51,6 +57,47 @@ suspend fun multipleConsumerWithDiffTimeOfAttach() = coroutineScope {
             println("Received Consumer - B: $it")
         }
     }
+}
+
+suspend fun mergeTwoFlows() = coroutineScope {
+    val data = producer()
+    val data2 = producerAlphabet()
+    launch {
+        merge(data, data2).collect {
+            println("New Merge Flow -> $it")
+        }
+    }
+
+}
+
+suspend fun combineTwoFlows() = coroutineScope {
+    val data = producer()
+    val data2 = producerAlphabet()
+    launch {
+        val newFlow = data.combine(data2) { a, b ->
+            "$a <-> $b"
+        }
+
+        newFlow.collect {
+            println("New Combine Flow -> $it")
+        }
+    }
+
+}
+
+suspend fun zipTwoFlows() = coroutineScope {
+    val data = producer()
+    val data2 = producerAlphabet()
+    launch {
+        val newFlow = data.zip(data2) { a, b ->
+            "$a <-> $b"
+        }
+
+        newFlow.collect {
+            println("New Zip Flow -> $it")
+        }
+    }
+
 }
 
 suspend fun multipleConsumerWithDiffTimeOfAttachCancellingB() = coroutineScope {
@@ -105,10 +152,23 @@ private fun producer() = flow<Int> {
     val list = listOf<Int>(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     println("Produced")
     list.forEach {
-        delay(1000)
+//        delay(1000)
         emit(it)
 
         println("Producing $it")
     }
+
+}
+
+private fun producerAlphabet() = flow<String> {
+    val list = listOf<String>("A", "B", "C", "D", "E", "F", "G", "H", "I", "J")
+    println("Produced String")
+    list.subList(0, 5)
+        .forEach {
+//            delay(1000)
+            emit(it)
+
+            println("Producing $it")
+        }
 
 }
