@@ -2,12 +2,16 @@ package com.example.mvvm_compose_di.ui.screens.scanner
 
 import android.graphics.Color
 import android.widget.LinearLayout
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,6 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mvvm_compose_di.navigation.NavScreens
 import com.example.mvvm_compose_di.ui.screens.base.BaseScreen
@@ -35,24 +41,45 @@ fun ScannerScreen(navigation: (NavScreens?, Array<out Any>?) -> Unit) {
 
 @Composable
 fun ScreenContent() {
+
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val cameraController = remember { LifecycleCameraController(context) }
+
     Box {
-        CameraPreviewView()
-        Button(modifier = Modifier.align(Alignment.BottomCenter),
+        CameraPreviewView(
+            lifecycleOwner = lifecycleOwner,
+            cameraController = cameraController
+        )
+        Button(
+            modifier = Modifier.align(Alignment.BottomCenter),
             onClick = {
 
-        }) {
-            Text("Capture")
+                cameraController.takePicture(
+                    ContextCompat.getMainExecutor(context),
+                    object :
+                        ImageCapture.OnImageCapturedCallback() {
+                        override fun onCaptureSuccess(image: ImageProxy) {
+                            super.onCaptureSuccess(image)
+                            image.close()
+                        }
+
+                        override fun onError(exception: ImageCaptureException) {
+                            super.onError(exception)
+                        }
+                    })
+            }) {
+            Text(text = "Capture", color = MaterialTheme.colorScheme.primary)
         }
     }
 }
 
 @Composable
 fun CameraPreviewView(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lifecycleOwner: LifecycleOwner,
+    cameraController: LifecycleCameraController
 ) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val cameraController = remember { LifecycleCameraController(context) }
 
     AndroidView(
         modifier = modifier
