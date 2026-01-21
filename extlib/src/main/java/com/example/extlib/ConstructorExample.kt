@@ -19,7 +19,12 @@ fun main() {
 
 
 /**
- * First it will trigger primary constructor then init blocks and then secondary constructor
+ * - First it will trigger primary constructor then init blocks and then secondary constructor
+ * - We can define multiple secondary constructors with different parameters
+ * 3 Types of constructors
+ *      1 - Default Constructor (eg. Person())
+ *      2 - Primary Constructor
+ *      3 - Secondary Constructor
  * */
 class Vehicle(
     var name: String,
