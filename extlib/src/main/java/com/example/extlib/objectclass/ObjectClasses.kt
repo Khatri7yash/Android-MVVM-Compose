@@ -5,8 +5,20 @@ fun main() {
     Car.startEngine()
     Car.stopEngine()
     Car.drive()
+    swapValuesWithoutThirdVariable()
 }
 
+
+fun swapValuesWithoutThirdVariable() {
+    var a = 3
+    var b = 5
+    println("The value of a = $a and b = $b")
+    a.let {
+        a = b
+        b = it
+    }
+    println("The value of a = $a and b = $b after swaping")
+}
 
 object Car : Motion {
     var isLeftHandDrive = false
