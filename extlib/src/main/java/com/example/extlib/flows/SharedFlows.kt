@@ -1,4 +1,4 @@
-package com.example.extlib
+package com.example.extlib.flows
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope

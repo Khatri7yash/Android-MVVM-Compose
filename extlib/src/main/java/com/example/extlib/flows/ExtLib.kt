@@ -1,6 +1,7 @@
-package com.example.extlib
+package com.example.extlib.flows
 
 
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -19,7 +20,7 @@ fun main() {
 
 open class ExtLib {
 
-    private val channel = kotlinx.coroutines.channels.Channel<Int>()
+    private val channel = Channel<Int>()
 
     suspend fun start() = coroutineScope {
 //        CoroutineScope(Dispatchers.IO).launch {

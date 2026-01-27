@@ -1,4 +1,4 @@
-package com.example.extlib
+package com.example.extlib.objectclass
 
 fun main() {
 
@@ -8,7 +8,6 @@ fun main() {
 
 
 }
-
 
 class Person {
 
