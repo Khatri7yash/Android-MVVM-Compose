@@ -2,20 +2,18 @@ package com.example.mvvm_compose_di.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.mvvm_compose_di.ui.screens.home.HomeScreen
 import com.example.mvvm_compose_di.ui.screens.movie_detail.MovieDetailsScreen
 import com.example.mvvm_compose_di.ui.screens.popular.PopularScreen
 import com.example.mvvm_compose_di.ui.screens.scanner.ScannerScreen
+import com.example.mvvm_compose_di.ui.screens.scanner.ScannerScreen2
 import com.example.mvvm_compose_di.ui.screens.settings.SettingsScreen
 
 val LocalCurrentRoute = (compositionLocalOf<String?> { null })
@@ -45,16 +43,24 @@ fun Navigation() {
                         NavScreens.SettingsScreen -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
+
                         NavScreens.Popular -> PopularScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
+
                         NavScreens.TopRated -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
+
                         NavScreens.UpComing -> SettingsScreen { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
+
                         NavScreens.ScannerScreen -> ScannerScreen { navigation, args ->
+                            navController navigateRoute (NavigationData(navigation, args))
+                        }
+
+                        NavScreens.ScannerScreen2 -> ScannerScreen2 { navigation, args ->
                             navController navigateRoute (NavigationData(navigation, args))
                         }
 
@@ -80,8 +86,8 @@ private infix fun NavHostController.navigateRoute(navigationPair: NavigationData
     val (navigation, args) = navigationPair
     navigation?.let {
         args?.let { array ->
-            this.navigate(it.route + array.joinToString(separator = "/", prefix = "/") )
-        } ?: this.navigate(it.route){
+            this.navigate(it.route + array.joinToString(separator = "/", prefix = "/"))
+        } ?: this.navigate(it.route) {
             launchSingleTop = true
             restoreState = true
             popUpTo(this@navigateRoute.graph.startDestinationId) { saveState = true }

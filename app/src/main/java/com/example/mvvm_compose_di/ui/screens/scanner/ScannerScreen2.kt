@@ -1,43 +1,47 @@
 package com.example.mvvm_compose_di.ui.screens.scanner
 
-import android.graphics.Color
+import android.content.Context
 import android.widget.LinearLayout
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mvvm_compose_di.navigation.NavScreens
 import com.example.mvvm_compose_di.ui.screens.base.BaseScreen
-import com.example.mvvm_compose_di.utils.annotation.ThemePreview
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 @Composable
-fun ScannerScreen(navigation: (NavScreens?, Array<out Any>?) -> Unit) {
+fun ScannerScreen2(navigation: (NavScreens?, Array<out Any>?) -> Unit) {
+
     BaseScreen(
         title = "Scanner",
         navigation = navigation
     ) {
         ScreenContent()
     }
+
 }
+
 
 @Composable
 private fun ScreenContent() {
@@ -47,14 +51,15 @@ private fun ScreenContent() {
     val cameraController = remember { LifecycleCameraController(context) }
 
     Box {
-        CameraPreviewView(
-            lifecycleOwner = lifecycleOwner,
-            cameraController = cameraController
-        )
+        val imageCapture = remember {
+            ImageCapture.Builder().build()
+        }
+        CameraXPreview(imageCapture = imageCapture)
         Button(
             modifier = Modifier.align(Alignment.BottomCenter),
             onClick = {
 
+                captureImage()
                 cameraController.takePicture(
                     ContextCompat.getMainExecutor(context),
                     object :
@@ -74,36 +79,49 @@ private fun ScreenContent() {
     }
 }
 
-@Composable
-private fun CameraPreviewView(
-    modifier: Modifier = Modifier,
-    lifecycleOwner: LifecycleOwner,
-    cameraController: LifecycleCameraController
-) {
+private fun captureImage() {
 
-    AndroidView(
-        modifier = modifier
-            .testTag("cameraPreview")
-            .fillMaxSize()
-            .padding(10.dp),
-        factory = { context ->
-            PreviewView(context).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                setBackgroundColor(Color.BLACK)
-                scaleType = PreviewView.ScaleType.FILL_CENTER
-            }.also { previewView ->
-                previewView.controller = cameraController
-                cameraController.bindToLifecycle(lifecycleOwner)
-            }
-        }
-    )
 }
 
 @Composable
-@ThemePreview
-fun PreviewScreen() {
-    ScreenContent()
+fun CameraXPreview(
+    cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
+    previewScaleType: PreviewView.ScaleType = PreviewView.ScaleType.FIT_CENTER,
+    imageCapture: ImageCapture
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val coroutineScope = rememberCoroutineScope()
+
+    AndroidView(modifier = Modifier, factory = { context ->
+        PreviewView(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            setBackgroundColor(android.graphics.Color.BLACK)
+            scaleType = previewScaleType
+        }.also {
+            val previewUseCase = Preview.Builder().build()
+            previewUseCase.surfaceProvider = it.surfaceProvider
+            coroutineScope.launch {
+                val cameraProvider = context.cameraProvider()
+
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    previewUseCase,
+                    imageCapture
+                )
+            }
+        }
+
+    })
+}
+
+suspend fun Context.cameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
+    val listenableFuture = ProcessCameraProvider.getInstance(this)
+    listenableFuture.addListener({
+        continuation.resume(listenableFuture.get())
+    }, ContextCompat.getMainExecutor(this))
 }

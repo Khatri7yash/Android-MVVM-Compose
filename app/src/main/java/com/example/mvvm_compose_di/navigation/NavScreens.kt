@@ -55,6 +55,7 @@ enum class NavScreens(
     UpComing(route = "UpComing", "Up Coming", navIcon = {
         Icon(imageVector = Icons.Rounded.KeyboardArrowUp, contentDescription = "UpComing")
     }),
-    ScannerScreen(route = "Scanner","Scanner")
+    ScannerScreen(route = "Scanner", "Scanner"),
+    ScannerScreen2(route = "Scanner2", "Scanner2")
 //    PopBackStack("", "")
 }

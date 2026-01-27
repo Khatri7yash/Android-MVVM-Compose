@@ -123,4 +123,11 @@ dependencies {
     implementation(libs.landscapist.placeholder)
     implementation(libs.landscapist.animation)
 
+    // CameraX core library using the camera2 implementation
+    implementation(libs.androidx.camera.camera2)
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation(libs.androidx.camera.lifecycle)
+    // If you want to additionally use the CameraX View class
+    implementation(libs.androidx.camera.view)
+
 }
