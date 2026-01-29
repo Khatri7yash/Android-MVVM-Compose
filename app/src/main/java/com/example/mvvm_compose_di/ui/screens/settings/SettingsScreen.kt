@@ -87,6 +87,26 @@ fun SettingsScreen(navigation: (NavScreens?, Array<out Any>?) -> Unit) {
 
                 HorizontalDivider(thickness = 1.dp)
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .testTag("CustomView")
+                        .clickable(onClick = {
+                            navigation(NavScreens.ScannerScreen, null)
+                        }),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Rounded.Star,
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.width(20.dp))
+                    Text(text = "Custom Canvas View")
+                }
+
+                HorizontalDivider(thickness = 1.dp)
+
             }
         }
     }
